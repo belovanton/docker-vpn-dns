@@ -1,0 +1,6 @@
+#!/bin/sh
+IP=$(/sbin/ip route|awk '/tun0/ { print $1 }' |grep -v /24)
+echo $IP
+HOSTNAME=$(cat /etc/hostname)
+pdd_delete $TOKEN $DOMAIN vpn.$HOSTNAME
+pdd_create  $TOKEN $DOMAIN "vpn.$HOSTNAME&A&$IP"
