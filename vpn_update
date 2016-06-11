@@ -1,6 +1,13 @@
 #!/bin/sh
-IP=$(/sbin/ip route|awk '/tun0/ { print $1 }' |grep -v /24)
+VPN_IP=$(/sbin/ip route|awk '/tun0/ { print $1 }' |grep -v /24)
+IP=$(/sbin/ip route|awk '/eth0/ { print $1 }' |grep -v /24)
 echo $IP
 HOSTNAME=$(cat /etc/hostname)
-pdd_delete $TOKEN $DOMAIN vpn.$HOSTNAME
-pdd_create  $TOKEN $DOMAIN "vpn.$HOSTNAME&A&$IP"
+if [ -z ${VPN_IP+x} ]; then echo "vpn IP is unset"; else
+  pdd_delete $TOKEN $DOMAIN vpn.$HOSTNAME
+  pdd_create  $TOKEN $DOMAIN "vpn.$HOSTNAME&A&$VPN_IP"
+fi
+if [ -z ${IP+x} ]; then echo "eth0 IP is unset"; else
+  pdd_delete $TOKEN $DOMAIN $HOSTNAME
+  pdd_create  $TOKEN $DOMAIN "$HOSTNAME&A&$IP"
+fi
