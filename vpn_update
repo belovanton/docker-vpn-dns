@@ -9,6 +9,9 @@ if [ -z ${VPN_IP+x} ]; then echo "vpn IP is unset"; else
   pdd_create  $TOKEN $DOMAIN "vpn.$HOSTNAME&A&$VPN_IP"
 fi
 if [ -z ${IP+x} ]; then echo "eth0 IP is unset"; else
+  if [ -z ${HOSTNAMEHASH+x} ]; then echo "";  else
+    HOSTNAME="$HOSTNAMEHASH.$HOSTNAME";
+  fi
   pdd_delete $TOKEN $DOMAIN $HOSTNAME
-  pdd_create  $TOKEN $DOMAIN "do.$HOSTNAME&A&$IP"
+  pdd_create  $TOKEN $DOMAIN "$HOSTNAME&A&$IP"
 fi
