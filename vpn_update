@@ -8,5 +8,7 @@ if [ -z ${HOSTNAME+x} ]; then
 fi
 if [ -z ${IP+x} ]; then echo "IP is unset"; else
   pdd_delete $TOKEN $DOMAIN $HOSTNAME
-  pdd_create  $TOKEN $DOMAIN "$HOSTNAME&A&$IP"
+  if [ -z ${DELETE_ONLY+x} ]; then
+    pdd_create  $TOKEN $DOMAIN "$HOSTNAME&A&$IP"
+  fi
 fi
