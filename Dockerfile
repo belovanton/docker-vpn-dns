@@ -3,7 +3,7 @@ MAINTAINER Anton Belov anton4@bk.ru
 
 RUN apt-get update -y && DEBIAN_FRONTEND=noninteractive \
 	apt-get -y -f install \
-	iproute2 php-curl php-cli &&\
+	iproute2 php-curl nano php-cli &&\
         apt-get clean && \
         rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* /download/directory
 
